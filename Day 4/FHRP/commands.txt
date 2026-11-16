@@ -1,0 +1,120 @@
+## Router Yahoo
+en
+conf t
+
+int g0/0
+ip add 200.150.100.1 255.255.255.0
+no shut
+exit
+
+router ospf 1
+router 10.10.10.10
+exit
+
+int g0/0
+ip ospf 1 area 0
+exit
+
+int s0/0/0
+ip add 61.0.0.1 255.255.255.252
+ip ospf 1 area 0
+no shut
+exit
+
+
+## Router Internet
+
+en
+conf t
+
+int s0/0/0
+ip add 61.0.0.2 255.255.255.252
+no shut
+exit
+
+router ospf 1
+router 1.1.1.1
+exit
+
+int s0/0/0
+ip ospf 1 area 0
+exit
+
+
+int s0/1/0
+ip add 51.0.0.2 255.255.255.252
+no shut
+ip ospf 1 area 0
+exit
+
+int s0/1/1
+ip add 41.0.0.2 255.255.255.252
+no shut
+ip ospf 1 area 0
+exit
+
+
+## Router WE
+en
+conf t
+
+int g0/0
+ip add 192.168.1.100 255.255.255.0
+no shut
+exit
+
+int s0/1/1
+ip add 41.0.0.1 255.255.255.252
+no shut
+exit
+
+ip route 0.0.0.0 0.0.0.0 41.0.0.2
+
+int g0/0
+ip nat inside
+exit
+
+int s0/1/1
+ip nat outside
+exit
+
+
+access-list 1 permit 192.168.1.0 0.0.0.255
+
+ip nat inside source list 1 interface s0/1/1 overload
+
+int g0/0
+standby 1 ip 192.168.1.1
+
+## Router Vodafon
+en
+conf t
+
+int g0/0
+ip add 192.168.1.101 255.255.255.0
+no shut
+exit
+
+int s0/1/0
+ip add 51.0.0.1 255.255.255.252
+no shut
+exit
+
+ip route 0.0.0.0 0.0.0.0 51.0.0.2
+
+
+int g0/0
+ip nat inside
+exit
+
+int s0/1/0
+ip nat outside
+exit
+
+
+access-list 1 permit 192.168.1.0 0.0.0.255
+
+ip nat inside source list 1 interface s0/1/0 overload
+
+int g0/0
+standby 1 ip 192.168.1.1

@@ -1,0 +1,103 @@
+## Router Aswan
+en
+conf t
+
+int g0/0
+ip add 10.0.0.1 255.255.255.192
+no shut
+exit
+
+int s0/0/0
+ip add 10.0.1.1 255.255.255.192
+no shut
+exit
+
+ip route 10.0.0.64 255.255.255.192 s 0/0/0
+ip route 10.0.0.128 255.255.255.192 s 0/0/0
+ip route 10.0.0.192 255.255.255.192 s 0/0/0
+
+ip route 10.0.1.64 255.255.255.192 s 0/0/0
+ip route 10.0.1.128 255.255.255.192 s 0/0/0
+
+
+## Router Sohag
+en
+conf t
+
+int g0/0
+ip add 10.0.0.65 255.255.255.192
+no shut
+exit
+
+int s0/0/0
+ip add 10.0.1.2 255.255.255.192
+no shut
+exit
+
+int s0/0/1
+ip add 10.0.1.65 255.255.255.192
+no shut
+exit
+
+
+ip route 10.0.0.0 255.255.255.192 s 0/0/0
+ip route 10.0.0.128 255.255.255.192 s 0/0/1
+ip route 10.0.0.192 255.255.255.192 s 0/0/1
+
+
+ip route 10.0.1.128 255.255.255.192 s 0/0/1
+
+
+## Router Cairo
+en
+conf t
+
+int g0/0
+ip add 10.0.0.129 255.255.255.192
+no shut
+exit
+
+int s0/0/0
+ip add 10.0.1.129 255.255.255.192
+no shut
+exit
+
+int s0/0/1
+ip add 10.0.1.66 255.255.255.192
+no shut
+exit
+
+
+ip route 10.0.0.0 255.255.255.192 s 0/0/1
+ip route 10.0.0.64 255.255.255.192 s 0/0/1
+ip route 10.0.0.192 255.255.255.192 s 0/0/0
+
+
+ip route 10.0.1.0 255.255.255.192 s 0/0/1
+
+
+## Router Alex
+en
+conf t
+
+int g0/0
+ip add 10.0.0.193 255.255.255.192
+no shut
+exit
+
+int s0/0/0
+ip add 10.0.1.130 255.255.255.192
+no shut
+exit
+
+ip route 10.0.0.0 255.255.255.192 s 0/0/0
+ip route 10.0.0.64 255.255.255.192 s 0/0/0
+ip route 10.0.0.128 255.255.255.192 s 0/0/0
+
+
+ip route 10.0.1.0 255.255.255.192 s 0/0/0
+ip route 10.0.1.64 255.255.255.192 s 0/0/0
+
+
+
+

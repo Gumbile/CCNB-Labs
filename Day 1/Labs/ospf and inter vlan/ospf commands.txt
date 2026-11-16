@@ -1,0 +1,145 @@
+## SW1
+en
+conf t
+
+vlan 10
+vlan 20
+vlan 30
+exit
+
+int r f0/1-2
+switch mode access
+switch acc vlan 10
+exit
+
+int r f0/3-4
+switch mode access
+switch acc vlan 20
+exit
+
+int r f0/5-6
+switch mode access
+switch acc vlan 30
+exit
+
+int f0/7
+switch mode trunk
+exit
+
+## SW2
+en
+conf t
+
+vlan 50
+vlan 60
+vlan 70
+exit
+
+int r f0/1-2
+switch mode access
+switch acc vlan 50
+exit
+
+int r f0/3-4
+switch mode access
+switch acc vlan 60
+exit
+
+int r f0/5-6
+switch mode access
+switch acc vlan 70
+exit
+
+int f0/7
+switch mode trunk
+exit
+
+## Router 1
+en
+conf t
+router ospf 1
+router-id 1.1.1.1
+exit
+
+int g0/0
+no shut
+exit
+
+int g0/0.10
+encap dot 10
+ip add 192.168.10.1 255.255.255.0
+ip ospf 1 area 0
+exit
+
+int g0/0.20
+encap dot 20
+ip add 192.168.20.1 255.255.255.0
+ip ospf 1 area 0
+exit
+
+int g0/0.30
+encap dot 30
+ip add 192.168.30.1 255.255.255.0
+ip ospf 1 area 0
+exit
+
+int s0/0/1
+ip add 71.0.0.1 255.255.255.252
+ip ospf 1 area 0
+no shutdown
+exit
+
+
+## Router 2
+en
+conf t
+
+int s0/0/1
+ip add 71.0.0.2 255.255.255.252
+ip ospf 1 area 0
+exit
+
+int s0/0/0
+ip add 81.0.0.2 255.255.255.252
+ip ospf 1 area 0
+exit
+
+router ospf 1
+router-id 2.2.2.2
+exit
+
+## Router 3
+en
+conf t
+
+int g0/0
+no shut
+exit
+
+int g0/0.50
+encap dot 50
+ip add 192.168.50.1 255.255.255.0
+ip ospf 1 area 0
+exit
+
+int g0/0.60
+encap dot 60
+ip add 192.168.60.1 255.255.255.0
+ip ospf 1 area 0
+exit
+
+int g0/0.70
+encap dot 70
+ip add 192.168.70.1 255.255.255.0
+ip ospf 1 area 0
+exit
+
+int s0/0/0
+ip add 81.0.0.1 255.255.255.252
+ip ospf 1 area 0
+no shutdown
+exit
+
+router ospf 1
+router-id 3.3.3.3
+exit

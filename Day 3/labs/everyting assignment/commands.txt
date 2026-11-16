@@ -1,0 +1,229 @@
+## Server SW
+en
+conf t
+
+int r f0/1-4
+switch mode trunk
+exit
+
+vlan 21
+vlan 25
+vlan 29
+
+vtp mode server
+vtp domain iti1.com
+vtp pass cisco
+
+
+## Client SW 
+en
+conf t
+
+int r f0/2-3
+switch mode access
+exit
+
+
+vtp mode client
+vtp domain iti1.com
+vtp pass cisco
+
+# Router (iti2)
+en
+conf t
+
+int s0/0/0
+ip add 61.0.0.1 255.255.255.252
+no shut
+exit
+
+int g0/0
+no shut
+exit
+
+int g0/0.11
+encap do 11
+ip add 192.168.10.1 255.255.255.192
+exit
+
+int g0/0.17
+encap do 17
+ip add 192.168.10.65 255.255.255.224
+exit
+
+
+int g0/0.19
+encap do 19
+ip add 192.168.10.97 255.255.255.248
+exit
+
+interface range gigabitEthernet 0/0.11, g 0/0.17, g0/0.19
+ip helper-address 61.0.0.2
+exit
+
+router ospf 1
+router 2.2.2.2
+exit
+
+int g0/0.11
+ip ospf 1 area 0
+exit
+
+int s0/0/0
+ip ospf 1 area 0
+exit
+
+int g0/0.17
+ip ospf 1 area 0
+exit
+
+
+int g0/0.19
+ip ospf 1 area 0
+exit
+
+
+
+## Router (iti1)
+en
+conf t
+
+int s0/0/1
+ip add 61.0.0.2 255.255.255.252
+no shut
+exit
+
+router ospf 1
+router 1.1.1.1
+exit
+
+int s0/0/1
+ip ospf 1 area 0
+exit
+
+int s0/0/0
+ip add 71.0.0.2 255.255.255.252
+no shut
+ip ospf 1 area 0
+exit
+
+
+
+
+
+
+ip dhcp pool iti2vlan11
+network 192.168.10.0 255.255.255.192
+default-router 192.168.10.1
+exit
+
+ip dhcp pool iti2vlan17
+network 192.168.10.64 255.255.255.224
+default-router 192.168.10.65
+exit
+
+ip dhcp pool iti2vlan19
+network 192.168.10.96 255.255.255.248
+default-router 192.168.10.97
+exit
+
+
+ip dhcp pool iti3vlan32
+network 10.0.0.0 255.255.255.224
+default-router 10.0.0.1
+exit
+
+ip dhcp pool iti3vlan17
+network 10.0.0.32 255.255.255.240
+default-router 10.0.0.33
+exit
+
+ip dhcp pool iti3vlan19
+network 10.0.0.48 255.255.255.248
+default-router 10.0.0.49
+exit
+
+int g0/0
+no shut
+exit
+
+
+int g0/0.21
+encap do 21
+ip add 172.20.0.1 255.255.255.224
+ip ospf 1 area 0
+exit
+
+int g0/0.25
+encap do 25
+ip add 172.20.0.33 255.255.255.240
+ip ospf 1 area 0
+exit
+
+
+int g0/0.29
+encap do 29
+ip add 172.20.0.49 255.255.255.248
+ip ospf 1 area 0
+exit
+
+
+ip dhcp pool iti1vlan21
+network 172.20.0.0 255.255.255.224
+default-router 172.20.0.1
+exit
+
+ip dhcp pool iti1vlan25
+network 172.20.0.32 255.255.255.240
+default-router 172.20.0.33
+exit
+
+ip dhcp pool iti1vlan29
+network 172.20.0.48 255.255.255.248
+default-router 172.20.0.49
+exit
+
+
+
+## Router (iti3)
+en
+conf t
+
+
+int g0/0
+no shut
+exit
+
+router ospf 1
+router 3.3.3.3
+exit
+
+
+int g0/0.32
+encap do 32
+ip add 10.0.0.1 255.255.255.224
+ip ospf 1 area 0
+ip helper-address 71.0.0.2
+exit
+
+int g0/0.34
+encap do 34
+ip add 10.0.0.33 255.255.255.240
+ip ospf 1 area 0
+ip helper-address 71.0.0.2
+exit
+
+
+int g0/0.37
+encap do 37
+ip add 10.0.0.49 255.255.255.248
+ip ospf 1 area 0
+ip helper-address 71.0.0.2
+exit
+
+int s0/0/0
+ip add 71.0.0.1 255.255.255.252
+no shut
+ip ospf 1 area 0
+exit
+

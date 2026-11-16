@@ -1,0 +1,48 @@
+## Swtich
+en
+conf t
+vlan 10
+vlan 20
+vlan 30
+int f0/1
+switch mode trunk
+exit
+
+int r f0/2-3
+switch mode access
+switch access vlan 10
+exit
+int r f0/4-5
+switch mode access
+switch access vlan 10
+exit
+int r f0/6-7
+switch mode access
+switch access vlan 10
+exit
+
+
+
+## Router
+en
+conf t
+int g0/0.10
+encapsulation dot1Q 10
+ip add 10.0.0.1 255.0.0.0
+exit
+int g0/0.20
+encapsulation dot1Q 20
+ip add 20.0.0.1 255.0.0.0
+exit
+int g0/0.30
+encapsulation dot1Q 30
+ip add 30.0.0.1 255.0.0.0
+exit
+int g0/0
+no shutdown
+exit
+int g0/1
+ip add 200.150.100 255.255.255.0
+
+
+

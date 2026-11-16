@@ -1,0 +1,321 @@
+## Router ARB
+en
+conf t
+
+
+int s0/0/0
+ip add 200.150.11.118 255.255.255.252
+no shut
+exit
+
+int s0/0/1
+ip add 200.150.11.102 255.255.255.252
+no shut
+exit
+
+int s0/1/0
+ip add 200.150.11.105 255.255.255.252
+no shut
+exit
+
+int s0/1/1
+ip add 200.150.11.121 255.255.255.252
+no shut
+exit
+
+Router ospf 1
+router  100.100.100.100
+exit
+
+int s0/0/0
+ip ospf 1 area 51
+exit
+
+int s0/0/1
+ip ospf 1 area 51
+exit
+
+int s0/1/0
+ip ospf 1 area 0
+exit
+
+int s0/1/1
+ip ospf 1 area 0
+exit
+
+
+## Router 1
+en
+conf t
+
+int g0/0
+ip add 200.150.10.129 255.255.255.192
+no shut
+exit
+
+int s0/0/0
+ip add 200.150.11.98 255.255.255.252
+no shut
+exit
+
+
+int s0/0/1
+ip add 200.150.11.101 255.255.255.252
+no shut
+exit
+
+
+Router ospf 1
+router  1.1.1.1
+exit
+
+int g0/0
+ip ospf 1 area 51
+exit
+
+int s0/0/1
+ip ospf 1 area 51
+exit
+
+int s0/0/0
+ip ospf 1 area 51
+exit
+
+
+
+
+
+
+## Router 2
+en
+conf t
+
+int g0/0
+ip add 200.150.11.65 255.255.255.240
+no shut
+exit
+
+int s0/0/0
+ip add 200.150.11.109 255.255.255.252
+no shut
+exit
+
+
+int s0/1/0
+ip add 200.150.11.106 255.255.255.252
+no shut
+exit
+
+
+Router ospf 1
+router  2.2.2.2
+exit
+
+int g0/0
+ip ospf 1 area 0
+exit
+
+int s0/1/0
+ip ospf 1 area 0
+exit
+
+int s0/0/0
+ip ospf 1 area 0
+exit
+
+
+
+
+## Router 3
+en
+conf t
+
+int g0/0
+no ip add 200.150.11.32 255.255.255.224
+ip add 200.150.11.33 255.255.255.224
+no shut
+exit
+
+int s0/0/0
+ip add 200.150.11.114 255.255.255.252
+no shut
+exit
+
+
+int s0/1/0
+ip add 200.150.11.117 255.255.255.252
+no shut
+exit
+
+
+Router ospf 1
+router  3.3.3.3
+exit
+
+int g0/0
+ip ospf 1 area 51
+exit
+
+int s0/1/0
+ip ospf 1 area 51
+exit
+
+int s0/0/0
+ip ospf 1 area 51
+exit
+
+
+
+
+## Router 4
+en
+conf t
+
+int g0/0
+no ip add 200.150.10.0 255.255.255.128
+ip add 200.150.10.1 255.255.255.128
+no shut
+exit
+
+int s0/0/0
+ip add 200.150.11.125 255.255.255.252
+no shut
+exit
+
+
+int s0/1/1
+ip add 200.150.11.122 255.255.255.252
+no shut
+exit
+
+
+Router ospf 1
+router  4.4.4.4
+exit
+
+int g0/0
+ip ospf 1 area 0
+exit
+
+int s0/0/0
+ip ospf 1 area 0
+exit
+
+int s0/1/1
+ip ospf 1 area 0
+exit
+
+
+## Router 5
+en
+conf t
+
+int g0/0
+ip add 200.150.11.89 255.255.255.248
+no shut
+exit
+
+int s0/0/0
+ip add 200.150.11.97 255.255.255.252
+no shut
+exit
+
+
+Router ospf 1
+router  5.5.5.5
+exit
+
+int g0/0
+ip ospf 1 area 51
+exit
+
+int s0/0/0
+ip ospf 1 area 51
+exit
+
+
+
+
+## Router 6
+en
+conf t
+
+int g0/0
+ip add 200.150.11.1 255.255.255.224
+no shut
+exit
+
+int s0/0/0
+ip add 200.150.11.110 255.255.255.252
+no shut
+exit
+
+
+Router ospf 1
+router  6.6.6.6
+exit
+
+int g0/0
+ip ospf 1 area 0
+exit
+
+int s0/0/0
+ip ospf 1 area 0
+exit
+
+
+## Router 7
+en
+conf t
+
+int g0/0
+ip add 200.150.10.193 255.255.255.192
+no shut
+exit
+
+int s0/0/0
+ip add 200.150.11.113 255.255.255.252
+no shut
+exit
+
+
+Router ospf 1
+router  7.7.7.7
+exit
+
+int g0/0
+ip ospf 1 area 51
+exit
+
+int s0/0/0
+ip ospf 1 area 51
+exit
+
+
+
+## Router 8
+en
+conf t
+
+int g0/0
+ip add 200.150.11.81 255.255.255.248
+no shut
+exit
+
+int s0/0/0
+ip add 200.150.11.126 255.255.255.252
+no shut
+exit
+
+
+Router ospf 1
+router  8.8.8.8
+exit
+
+int g0/0
+ip ospf 1 area 0
+exit
+
+int s0/0/0
+ip ospf 1 area 0
+exit

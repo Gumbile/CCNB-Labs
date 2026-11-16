@@ -1,0 +1,163 @@
+## SW TRUNK 1
+en
+conf t
+valn 11
+vlan 15
+vlan 17
+int f0/1
+switch mode trunk
+exit
+int f0/2
+switch mode trunk
+exit
+int f0/3
+switch mode trunk
+exit
+
+## SW TRUNK 2
+en
+conf t
+v1an 66
+vlan 77
+vlan 88
+int f0/1
+switch mode trunk
+exit
+int f0/2
+switch mode trunk
+exit
+int f0/3
+switch mode trunk
+exit
+
+## SW1
+en
+conf t
+vlan 11
+vlan 15
+vlan 17
+
+int f0/1
+switch mode trunk
+exit
+
+int r f0/2-3
+switch mode access
+switch access vlan 11
+exit
+int r f0/4-5
+switch mode access
+switch access vlan 15
+exit
+int r f0/6-7
+switch mode access
+switch access vlan 17
+exit
+
+## SW2
+en
+conf t
+vlan 11
+vlan 15
+vlan 17
+
+int f0/1
+switch mode trunk
+exit
+
+int r f0/2-3
+switch mode access
+switch access vlan 15
+exit
+int r f0/4-5
+switch mode access
+switch access vlan 11
+exit
+int r f0/6-7
+switch mode access
+switch access vlan 17
+exit
+
+
+# SW3
+en
+conf t
+vlan 66
+vlan 77
+vlan 88
+
+int f0/1
+switch mode trunk
+exit
+
+int r f0/2-3
+switch mode access
+switch access vlan 77
+exit
+int r f0/4-5
+switch mode access
+switch access vlan 88
+exit
+int r f0/6-7
+switch mode access
+switch access vlan 66
+exit
+
+# SW4
+en
+conf t
+vlan 66
+vlan 77
+vlan 88
+
+int f0/1
+switch mode trunk
+exit
+
+int r f0/2-3
+switch mode access
+switch access vlan 88
+exit
+int r f0/4-5
+switch mode access
+switch access vlan 77
+exit
+int r f0/6-7
+switch mode access
+switch access vlan 66
+exit
+
+
+# Router
+en
+conf t
+int g0/0.11
+encapsulation dot1Q 11
+ip add 192.168.10.1 255.255.255.0
+exit
+int g0/0.15
+encapsulation dot1Q 15
+ip add 192.168.20.1 255.255.255.0
+exit
+int g0/0.17
+encapsulation dot1Q 17
+ip add 192.168.30.1 255.255.255.0
+exit
+int g0/0
+no shutdown
+exit
+int g0/1.66
+encapsulation dot1Q 66
+ip add 172.12.0.1 255.255.0.0
+exit
+int g0/1.77
+encapsulation dot1Q 77
+ip add 172.16.0.1 255.255.0.0
+exit
+int g0/1.88
+encapsulation dot1Q 88
+ip add 172.20.0.1 255.255.0.0
+exit
+int g0/1
+no shutdown
+exit

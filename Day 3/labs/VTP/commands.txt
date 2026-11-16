@@ -1,0 +1,63 @@
+## layer 4
+en
+conf t
+int f0/1
+switch mode trunk
+
+## layer 3
+en
+conf t
+int r f0/1-2
+switch mode trunk
+
+## layer 2
+en
+conf t
+int r f0/1-2
+switch mode trunk
+
+## layer 1
+en
+conf t
+int r f0/1-4
+switch mode trunk
+
+
+# Server
+en
+conf t
+vtp domain iti.com
+vtp password cisco
+vtp mode server
+vlan 10
+vlan 20
+vlan 30
+vlan 40
+vlan 50
+
+# Transparent
+en
+conf t
+vtp domain iti.com
+vtp password cisco
+vtp mode tra
+
+vlan 210
+vlan 220
+
+
+
+
+
+# Client
+en
+conf t
+vtp domain iti.com
+vtp password cisco
+vtp mode client
+
+
+
+
+en
+sh vlan

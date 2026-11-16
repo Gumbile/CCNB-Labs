@@ -1,0 +1,57 @@
+## Router 1
+en
+conf t
+
+int g0/0
+ip add 192.168.10.1 255.255.255.0
+no shutdown
+exit
+
+int g0/1
+ip add 192.168.20.1 255.255.255.0
+no shutdown
+exit
+
+
+int g0/2
+ip add 192.168.30.1 255.255.255.0
+no shutdown
+exit
+
+int s0/0/0
+ip add 71.0.0.2 255.255.255.252
+no shutdown
+exit
+
+ip route 172.16.0.0 255.255.0.0 s 0/0/0
+ip route 172.17.0.0 255.255.0.0 s 0/0/0
+ip route 172.18.0.0 255.255.0.0 s 0/0/0
+
+## Router 2
+en
+conf t
+
+int g0/0
+ip add 172.16.0.1 255.255.0.0
+no shutdown
+exit
+
+int g0/1
+ip add 172.17.0.1 255.255.0.0
+no shutdown
+exit
+
+
+int g0/2
+ip add 172.18.0.1 255.255.0.0
+no shutdown
+exit
+
+int s0/0/0
+ip add 71.0.0.1 255.255.255.252
+no shutdown
+exit
+
+ip route 192.168.10.0 255.255.255.0 s 0/0/0
+ip route 192.168.20.0 255.255.255.0 s 0/0/0
+ip route 192.168.30.0 255.255.255.0 s 0/0/0

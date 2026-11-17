@@ -27,6 +27,16 @@ ip add 192.169.40.1 255.255.255.252
 no shut
 exit
 
+router ospf 1
+router-id 1.1.1.1
+network 192.169.10.0 0.0.0.255 area 2
+network 192.169.20.0 0.0.0.255 area 2
+network 192.169.30.0 0.0.0.255 area 2
+network 192.169.40.0 0.0.0.255 area 2
+network 44.0.0.0 0.0.0.3 area 2
+area 2 stub
+exit
+
 
 ## Router 2
 en
@@ -57,6 +67,17 @@ ip add 192.168.40.1 255.255.255.252
 no shut
 exit
 
+
+router ospf 1
+router-id 2.2.2.2
+network 192.168.10.0 0.0.0.255 area 2
+network 192.168.20.0 0.0.0.255 area 2
+network 192.168.30.0 0.0.0.255 area 2
+network 192.168.40.0 0.0.0.255 area 2
+network 44.0.0.4 0.0.0.3 area 2
+area 2 stub
+exit
+
 ## Router 3
 en
 conf t
@@ -81,6 +102,12 @@ router 3.3.3
 net 22.0.0.4 0.0.0.3 area 0
 exit
 
+
+router ospf 1
+net 44.0.0.0 0.0.0.3 area 2
+net 44.0.0.4 0.0.0.3 area 2
+area 2 stub
+exit
 
 
 ## Router 4
@@ -169,8 +196,11 @@ exit
 
 router eigrp 200
 net 66.0.0.8 0.0.0.3
-net 172.20.0.0 0.0.31.255
+net 172.20.0.0 0.0.255.255
+no auto-sum
 exit
+
+ip route 0.0.0.0 0.0.0.0 s 0/0/0
 
 
 ## Router 7
@@ -204,8 +234,11 @@ exit
 
 router eigrp 100
 net 55.0.0.8 0.0.0.3
-net 172.16.0.0 0.0.31.255
+net 172.16.0.0 0.0.255.255
+no auto-sum
 exit
+
+ip route 0.0.0.0 0.0.0.0 s 0/0/0
 
 ## Router 8
 en
@@ -234,6 +267,16 @@ exit
 int loopback 4
 ip add 200.150.40.1 255.255.255.252
 no shut
+exit
+
+router ospf 1
+router 8.8.8.8
+net 33.0.0.4 0.0.0.3 area 3
+net 200.150.10.0 0.0.0.255 area 3
+net 200.150.20.0 0.0.0.255 area 3
+net 200.150.30.0 0.0.0.255 area 3
+net 200.150.40.0 0.0.0.255 area 3
+area 3 stub
 exit
 
 
@@ -267,6 +310,18 @@ no shut
 exit
 
 
+router ospf 1
+router 9.9.9.9
+net 33.0.0.0 0.0.0.3 area 3
+net 200.150.70.0 0.0.0.255 area 3
+net 200.150.80.0 0.0.0.255 area 3
+net 200.150.90.0 0.0.0.255 area 3
+net 200.150.100.0 0.0.0.255 area 3
+area 3 stub
+exit
+
+
+
 ## Router 10
 en
 conf t
@@ -289,6 +344,13 @@ exit
 router ospf 1
 router 10.10.10.10
 net 22.0.0.8 0.0.0.3 area 0
+exit
+
+
+router ospf 1
+net 33.0.0.0 0.0.0.3 area 3
+net 33.0.0.4 0.0.0.3 area 3
+area 3 stub no-sum
 exit
 
 
@@ -317,6 +379,15 @@ router 11.11.11.11
 net 22.0.0.16 0.0.0.3 area 0
 exit
 
+
+router ospf 1
+net 55.0.0.0 0.0.0.3 area 1
+net 55.0.0.4 0.0.0.3 area 1
+area 1 nssa
+exit
+
+ip route 0.0.0.0 0.0.0.0 22.0.0.17
+
 ## Router 12
 en
 conf t
@@ -332,9 +403,18 @@ no shut
 exit
 
 router eigrp 100
+no auto-sum
 net 55.0.0.8 0.0.0.3
 exit
 
+router ospf 1
+router 12.12.12.12
+net 55.0.0.0 0.0.0.3 area 1
+area 1 nssa
+redis eigrp 100 subnets
+exit
+
+ip route 0.0.0.0 0.0.0.0 55.0.0.1
 
 ## Router 13
 en
@@ -365,6 +445,15 @@ ip add 172.16.19.1 255.255.255.252
 no shut
 exit
 
+router ospf 1
+router 13.13.13.13
+net 55.0.0.4 0.0.0.3 area 1
+net 172.16.16.0 0.0.3.255 area 1
+area 1 nssa
+exit
+
+ip route 0.0.0.0 0.0.0.0 55.0.0.5
+
 ## Router 14
 en
 conf t
@@ -388,6 +477,13 @@ router ospf 1
 router 14.14.14.14
 net 22.0.0.12 0.0.0.3 area 0
 exit
+
+router ospf 1
+net 66.0.0.0 0.0.0.3 area 4
+net 66.0.0.4 0.0.0.3 area 4
+area 4 nssa no-sum
+exit
+
 
 
 ## Router 15
@@ -419,6 +515,13 @@ ip add 172.20.19.1 255.255.255.252
 no shut
 exit
 
+router ospf 1
+router 15.15.15.15
+net 66.0.0.4 0.0.0.3 area 4
+net 172.20.16.0 0.0.3.255 area 4
+area 4 nssa
+exit
+
 
 ## Router 16
 en
@@ -436,5 +539,14 @@ exit
 
 router eigrp 200
 net 66.0.0.8 0.0.0.3
+no auto-sum
+def ori
+exit
+
+router ospf 1
+router 16.16.16.16
+net 66.0.0.0 0.0.0.3 area 4
+area 4 nssa
+redis eigrp  200 subnets
 exit
 

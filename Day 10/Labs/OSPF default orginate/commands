@@ -1,0 +1,413 @@
+## Router 1
+en
+conf t
+
+int s0/0/0
+ip  add 31.0.0.1 255.255.255.252
+no shut 
+exit
+
+router ospf 1
+router 1.1.1.1
+net 31.0.0.0 0.0.0.3 area 31
+exit
+
+
+## Router 2
+en
+conf t
+
+int s0/0/0
+ip  add 21.0.0.1 255.255.255.252
+no shut 
+exit
+
+router ospf 1
+router 2.2.2.2
+net 21.0.0.0 0.0.0.3 area 31
+exit
+
+int loopback 1
+ip add 10.10.10.1 255.255.255.0
+no shut
+ip ospf 1 area 31
+exit
+
+int loopback 2
+ip add 10.10.20.1 255.255.255.0
+no shut
+ip ospf 1 area 31
+exit
+
+int loopback 3
+ip add 10.10.40.1 255.255.255.0
+no shut
+ip ospf 1 area 31
+exit
+
+int loopback 4
+ip add 10.10.50.1 255.255.255.0
+no shut
+ip ospf 1 area 31
+exit
+
+int loopback 5
+ip add 10.10.60.1 255.255.255.0
+no shut
+ip ospf 1 area 31
+exit
+
+
+
+
+
+## Router 3
+en
+conf t
+
+int s0/0/0
+ip  add 31.0.0.2 255.255.255.252
+no shut 
+exit
+
+int s0/0/1
+ip  add 81.0.0.2 255.255.255.252
+no shut 
+exit
+
+router ospf 1
+router 3.3.3.3
+net 31.0.0.0 0.0.0.3 area 31
+net 81.0.0.0 0.0.0.3 area 31
+exit
+
+## Router 4
+en
+conf t
+
+int s0/0/0
+ip  add 21.0.0.2 255.255.255.252
+no shut 
+exit
+
+int s0/0/1
+ip  add 91.0.0.2 255.255.255.252
+no shut 
+exit
+
+router ospf 1
+router 4.4.4.4
+net 21.0.0.0 0.0.0.3 area 31
+net 91.0.0.0 0.0.0.3 area 31
+exit
+
+
+## Router 5
+en
+conf t
+
+int s0/0/0
+ip  add 81.0.0.1 255.255.255.252
+no shut 
+exit
+
+int s0/0/1
+ip  add 91.0.0.1 255.255.255.252
+no shut 
+exit
+
+int s0/1/0
+ip  add 61.0.0.1 255.255.255.252
+no shut 
+exit
+
+int s0/1/1
+ip  add 71.0.0.1 255.255.255.252
+no shut 
+exit
+
+
+router ospf 1
+router 5.5.5.5
+net 81.0.0.0 0.0.0.3 area 31
+net 91.0.0.0 0.0.0.3 area 31
+net 61.0.0.0 0.0.0.3 area 0
+net 71.0.0.0 0.0.0.3 area 0
+exit
+
+
+## Router 6
+en
+conf t
+
+int s0/0/0
+ip  add 41.0.0.2 255.255.255.252
+no shut 
+exit
+
+int s0/0/1
+ip  add 61.0.0.2 255.255.255.252
+no shut 
+exit
+
+router ospf 1
+router 6.6.6.6
+net 41.0.0.0 0.0.0.3 area 0
+net 71.0.0.0 0.0.0.3 area 0
+exit
+
+int s0/1/1
+ip add 66.0.0.2 255.255.255.252
+no shut
+exit
+
+
+
+router ospf 1
+redistribute static subnets
+def org
+
+ip route 0.0.0.0 0.0.0.0 serial
+
+
+## Router 7
+en
+conf t
+
+int s0/0/0
+ip  add 51.0.0.2 255.255.255.252
+no shut 
+exit
+
+int s0/0/1
+ip  add 71.0.0.2 255.255.255.252
+no shut 
+exit
+
+router ospf 1
+router 7.7.7.7
+net 51.0.0.0 0.0.0.3 area 0
+net 71.0.0.0 0.0.0.3 area 0
+exit
+
+## Router 8
+en
+conf t
+
+int s0/0/0
+ip  add 41.0.0.1 255.255.255.252
+no shut 
+exit
+
+router ospf 1
+router 8.8.8.8
+net 41.0.0.0 0.0.0.3 area 0
+exit
+
+
+## Router 9
+en
+conf t
+
+int s0/0/0
+ip  add 51.0.0.1 255.255.255.252
+no shut 
+exit
+
+router ospf 1
+router 9.9.9.9
+net 51.0.0.0 0.0.0.3 area 0
+exit
+
+int loopback 1
+ip add 172.20.30.1 255.255.255.0
+no shut
+ip ospf 1 area 0
+exit
+
+int loopback 2
+ip add 172.20.35.1 255.255.255.0
+no shut
+ip ospf 1 area 0
+exit
+
+int loopback 3
+ip add 172.20.40.1 255.255.255.0
+no shut
+ip ospf 1 area 0
+exit
+
+int loopback 4
+ip add 172.20.45.1 255.255.255.0
+no shut
+ip ospf 1 area 0
+exit
+
+int loopback 5
+ip add 172.20.50.1 255.255.255.0
+no shut
+ip ospf 1 area 0
+exit
+
+
+
+
+
+
+66.0.0.12
+2 12   0 
+2 6 0
+2 3 1
+2 1 1
+
+## Router 10
+en
+conf t
+
+int s0/1/1
+ip add 66.0.0.1 255.255.255.252
+no shut
+exit
+
+
+int s0/0/0
+ip add 66.0.0.13 255.255.255.252
+no shut
+exit
+
+int s0/0/1
+ip add 66.0.0.9 255.255.255.252
+no shut
+exit
+
+int s0/1/0
+ip add 66.0.0.5 255.255.255.252
+no shut
+exit
+
+ip route 0.0.0.0 0.0.0.0 s 0/1/1
+
+## Router 11
+en
+conf t
+
+int s0/0/0
+ip  add 66.0.0.14 255.255.255.252
+no shut 
+exit
+
+int loopback 1
+ip add 200.150.10.1 255.255.255.0
+no shut
+exit
+
+int loopback 2
+ip add 200.150.20.1 255.255.255.0
+no shut
+exit
+
+int loopback 3
+ip add 200.150.30.1 255.255.255.0
+no shut
+exit
+
+int loopback 4
+ip add 200.150.40.1 255.255.255.0
+no shut
+exit
+
+int loopback 5
+ip add 200.150.50.1 255.255.255.0
+no shut
+exit
+
+ip route 200.150.0.0 255.255.192.0 serial 0/0/0
+ip route 192.168.0.0 255.255.224.0 serial 0/1/0
+## Router 11
+en
+conf t
+
+int s0/0/0
+ip  add 66.0.0.14 255.255.255.252
+no shut 
+exit
+
+int loopback 1
+ip add 200.150.10.1 255.255.255.0
+no shut
+exit
+
+int loopback 2
+ip add 200.150.20.1 255.255.255.0
+no shut
+exit
+
+int loopback 3
+ip add 200.150.30.1 255.255.255.0
+no shut
+exit
+
+int loopback 4
+ip add 200.150.40.1 255.255.255.0
+no shut
+exit
+
+int loopback 5
+ip add 200.150.50.1 255.255.255.0
+no shut
+exit
+
+
+ip route 0.0.0.0 0.0.0.0 s 0/0/0
+
+
+## Router 12
+en
+conf t
+
+int s0/0/0
+ip  add 66.0.0.10 255.255.255.252
+no shut 
+exit
+
+ip route 0.0.0.0 0.0.0.0 s 0/0/0
+
+
+## Router 13
+en
+conf t
+
+int s0/0/0
+ip  add 66.0.0.6 255.255.255.252
+no shut 
+exit
+
+int loopback 1
+ip add 192.168.5.1 255.255.255.0
+no shut
+exit
+
+int loopback 2
+ip add 192.168.10.1 255.255.255.0
+no shut
+exit
+
+int loopback 3
+ip add 192.168.15.1 255.255.255.0
+no shut
+exit
+
+int loopback 4
+ip add 192.168.20.1 255.255.255.0
+no shut
+exit
+
+int loopback 5
+ip add 192.168.25.1 255.255.255.0
+no shut
+exit
+
+
+ip route 0.0.0.0 0.0.0.0 s 0/0/0
+
+

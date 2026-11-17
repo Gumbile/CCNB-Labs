@@ -76,6 +76,12 @@ ip add 22.0.0.5 255.255.255.252
 no shut
 exit
 
+router ospf 1
+router 3.3.3
+net 22.0.0.4 0.0.0.3 area 0
+exit
+
+
 
 ## Router 4
 en
@@ -429,5 +435,6 @@ no shut
 exit
 
 router eigrp 200
-net 55.0.0.8 0.0.0.3
+net 66.0.0.8 0.0.0.3
 exit
+
